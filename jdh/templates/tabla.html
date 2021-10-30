@@ -1,0 +1,58 @@
+{%extends "/base/base.html"%}
+
+{%block title%}
+    Ingresar
+{%endblock%}
+
+{%block head%}
+{%endblock%}
+
+{%block content%}
+    <main>
+        <div  class="container">
+            <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Volumen</th>
+                    <th scope="col">Día compra</th>
+                    <th scope="col">Precio compra</th>
+                    <th scope="col">Interés compra</th>
+                    <th scope="col">Razones compra</th>
+                    <th scope="col">Día venta</th>
+                    <th scope="col">Precio venta</th>
+                    <th scope="col">Interés venta</th>
+                    <th scope="col">Razones venta</th>
+                    <th scope="col">Beneficio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for posicion in posiciones%}
+                    <tr>
+                        <th scope="row">{{posicion.id}}</th>
+                        <td>{{posicion.volumen}}</td>
+                        <td>{{posicion.dia_compra}}</td>
+                        <td>{{"${:,.2f}".format(posicion.valor_compra)}}</td>
+                        <td>{{"${:,.2f}".format(posicion.interes_compra)}}</td>
+                        <td>{{posicion.comentario_compra[:40]}}...</td>
+                        {%if posicion.cerrado%}
+                            <td>{{posicion.dia_venta}}</td>
+                            <td>{{"${:,.2f}".format(posicion.valor_venta)}}</td>
+                            <td>{{"${:,.2f}".format(posicion.interes_venta)}}</td>
+                            <td>{{posicion.comentario_venta[:40]}}</td>
+                            <td>{{"${:,.2f}".format(posicion.balance)}}...</td>
+                        {%else%}
+                            <td>No se ha vendido</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                        {%endif%}
+                        
+                    </tr>
+                  {%endfor%}
+                </tbody>
+              </table>
+        </div>
+    </main>
+{%endblock%}

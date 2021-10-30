@@ -1,0 +1,21 @@
+alembic==1.7.4
+click==8.0.3
+colorama==0.4.4
+Flask==1.1.2
+Flask-Migrate==2.5.2
+Flask-Script==2.0.6
+Flask-SQLAlchemy==2.4.1
+greenlet==1.1.2
+gunicorn==20.0.4 # For Heroku Deploy
+importlib-metadata==4.8.1
+importlib-resources==5.3.0
+itsdangerous==2.0.1
+Jinja2==3.0.2
+Mako==1.1.5
+MarkupSafe==2.0.1
+psycopg2-binary==2.8.6
+SQLAlchemy==1.4.25
+Werkzeug==2.0.2
+yfinance
+WTForms==2.3.3
+zipp==3.6.0

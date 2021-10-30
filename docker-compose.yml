@@ -1,0 +1,25 @@
+#! Local use only
+version: "3.8"
+
+services:
+
+  flask:
+    build: ./jdh
+    container_name: flask
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./jdh:/app
+    env_file:
+      - ./jdh/local.env
+
+  pgsql:
+    image: postgres:13-alpine
+    container_name: pgsql
+    env_file:
+      - database.env
+    volumes:
+      - .database-data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"

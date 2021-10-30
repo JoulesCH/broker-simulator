@@ -1,0 +1,1 @@
+sass ./sass/main.scss ./jdh/static/css/main.css

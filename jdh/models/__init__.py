@@ -38,7 +38,7 @@ class Cuenta(db.Model):
         self.patrimonio = patrimonio
         self.balance = 0
         self.beneficio = 0
-
+        self.mov_disponibles = 2
 
 class Grafico(db.Model):
     __tablename__ = 'graficos'

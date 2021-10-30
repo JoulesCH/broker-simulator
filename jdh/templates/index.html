@@ -17,37 +17,50 @@
                 <div class="container">
                     <div class="row">
                       <div class="col text-center">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Hacer una operación</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Abrir posición</button>
                       </div>
                     </div>
                   </div>
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" >
+                    <div class="modal-dialog" style="max-width: 1000px; ">
                     <form action="/crear_simbolo" method="POST">  
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Operación nueva</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Abrir una posición</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <h6> <b>Patrimonio: <b style="color:green;"> ${{"{:,.2f}".format(cuenta.patrimonio)}}</b></b></h6>
-                            <div class="mb-3">
-                              <label for="recipient-name" class="col-form-label">Símbolo:</label>
-                              <canvas id="chart" height="200"></canvas>
-                              <select onchange="get_stock_data()" id="symbol" name="simbolo" class="form-select mt-3" aria-label="Default select example">
-                                <option disabled>Elegir...</option>
-                                <option selected value="TSLA">TSLA</option>
-                                <option value="GOOGL">GOOGL</option>
-                                <option value="AMZN">AMZN</option>
-                              </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Volumen:</label>
-                                <input onkeyup="Total()" name="volumen" required type="number" min="1" step="1" id="volumen" class="form-control" >
-                            </div>
-                            <div class="mb-3">
-                              <label for="message-text" class="col-form-label">Comentario:</label>
-                              <textarea required placeholder="Resumen de los movitos para realizar la compra" name="comentario_compra" class="form-control" id="message-text"></textarea>
+                            <div class="row">
+                                <div class="col">
+                                    <canvas id="chart" height="200"></canvas>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                              <label for="recipient-name" class="col-form-label">Símbolo:</label>
+                                              <select onchange="get_stock_data()" id="symbol" name="simbolo" class="form-select mt-3" aria-label="Default select example">
+                                                <option disabled>Elegir...</option>
+                                                <option selected value="TSLA">TSLA</option>
+                                                <option value="GOOGL">GOOGL</option>
+                                                <option value="AMZN">AMZN</option>
+                                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Volumen:</label>
+                                                <input onkeyup="Total()" name="volumen" required type="number" min="1" step="1" id="volumen" class="form-control mt-3" >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        <div class="mb-3">
+                                          <label for="message-text" class="col-form-label">Comentario:</label>
+                                          <textarea required rows="7"  placeholder="Resumen de los movitos para realizar la compra" name="comentario_compra" class="form-control" id="message-text"></textarea>
+                                        </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <hr>

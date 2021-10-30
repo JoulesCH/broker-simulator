@@ -10,7 +10,8 @@
 {%block content%}
     <main>
         <div  class="container">
-            <table class="table table-striped table-hover">
+          <div class="table-responsive">
+            <table class="table align-middle table-striped table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -28,18 +29,18 @@
                 </thead>
                 <tbody>
                   {%for posicion in posiciones%}
-                    <tr>
+                    <tr class="align-bottom">
                         <th scope="row">{{posicion.id}}</th>
                         <td>{{posicion.volumen}}</td>
                         <td>{{posicion.dia_compra}}</td>
                         <td>{{"${:,.2f}".format(posicion.valor_compra)}}</td>
                         <td>{{"${:,.2f}".format(posicion.interes_compra)}}</td>
-                        <td>{{posicion.comentario_compra[:40]}}...</td>
+                        <td>{{posicion.comentario_compra[:100]}}...</td>
                         {%if posicion.cerrado%}
                             <td>{{posicion.dia_venta}}</td>
                             <td>{{"${:,.2f}".format(posicion.valor_venta)}}</td>
                             <td>{{"${:,.2f}".format(posicion.interes_venta)}}</td>
-                            <td>{{posicion.comentario_venta[:40]}}</td>
+                            <td>{{posicion.comentario_venta[:100]}}</td>
                             <td>{{"${:,.2f}".format(posicion.balance)}}...</td>
                         {%else%}
                             <td>No se ha vendido</td>
@@ -53,6 +54,7 @@
                   {%endfor%}
                 </tbody>
               </table>
+            </div>
         </div>
     </main>
 {%endblock%}

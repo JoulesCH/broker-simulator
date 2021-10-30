@@ -13,3 +13,7 @@ app.route('/tabla')(index.tabla)
 from resources import stock_data
 
 app.route('/stock_data', methods=["POST"])(stock_data.get)
+
+from resources import posiciones
+
+app.route('/posiciones')(posiciones.page)

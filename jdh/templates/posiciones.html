@@ -1,0 +1,82 @@
+{%extends "/base/base.html"%}
+
+{%block title%}
+    Ingresar
+{%endblock%}
+
+{%block head%}
+    <style>
+    .td {
+        vertical-align: bottom;
+    }
+    .podium0, .podium1, .podium2{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .podium0 { /* gold */
+        height: 250px;
+        background-color: #D8AB1F;
+    }
+    .podium1 { /* silver */
+        height: 200px;
+        background-color: #B4B4B4;
+        margin-top: 50px;
+    }
+    .podium2 { /* bronze */
+        height: 150px;
+        background-color: #A37D29;
+        margin-top: 100px;
+    }
+    p.pos{
+        flex: 0 0 120px;
+        color: white;
+    }
+    </style>
+{%endblock%}
+
+{%block content%}
+    <main>
+        <div class="container mb-3">
+            <h2 class="mb-4 text-center">Tabla de posiciones de mayor patrimonio</h2>
+            <div class="row justify-content-center">
+                    {% for cuenta, p in [[cuentass[1],1], [cuentass[0], 0], [cuentass[2], 2]] %}
+                        <div class="col-4 text-center">
+                            <h4>{{ cuenta.equipo.nombre }}</h4>
+                            <div class="podium{{ p }}"><p class="pos display-2">{{ p + 1 }}</p></div>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+        <div  class="container">
+          <div class="table-responsive">
+            <table class="table align-middle table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Posición</th>
+                    <th scope="col">Nombre de equipo</th>
+                    <th scope="col">Patrimonio</th>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Beneficio total</th>
+                    <th scope="col">No. de movimientos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for cuenta in cuentass%}
+                    <tr class="align-bottom">
+                        <th scope="row">{{loop.index0 + 1}}</th>
+                        <td>{{cuenta.equipo.nombre}}</td>
+                        <td>{{"${:,.2f}".format(cuenta.patrimonio)}}</td>
+                        <td>{{"${:,.2f}".format(cuenta.balance)}}</td>
+                        <td>{{"${:,.2f}".format(cuenta.beneficio)}}</td>
+                        {#TODO: CHANGE BENEFICIO#}
+                        <td>{{5}}</td>
+                        {#TODO: CHANGE no. de movimientos#}
+                    </tr>
+                  {%endfor%}
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </main>
+{%endblock%}

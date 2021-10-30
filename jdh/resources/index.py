@@ -58,9 +58,9 @@ def crear_simbolo():
     data = request.form
     print(data, flush=True)
     # 1 Obtener la cuenta por el token
-    cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token')).first()
+    cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token'))  # .first()
     # 2 Crear un nuevo grafico
-    grafico = m.Grafico(data['simbolo'], cuenta)
+    grafico = m.Grafico(data['simbolo'], cuenta.first())
     # 4 Crear la posición
     # TODO: VALIDAR VOLUMEN
     # TODO: VALIDAR QUE SEA ÚNICO
@@ -69,7 +69,7 @@ def crear_simbolo():
     
     # 5 Restar patrimonio
     total = float(data['total'])
-    cuenta.update(patrimonio=cuenta.patrimonio-total)
+    cuenta.update(dict(patrimonio=cuenta.first().patrimonio-total))
 
     m.db.session.add(grafico)
     m.db.session.add(posicion)

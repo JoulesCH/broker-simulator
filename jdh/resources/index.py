@@ -1,5 +1,6 @@
 # Installed packages
-from flask import render_template, request, redirect, make_response
+from operator import pos
+from flask import render_template, request, redirect, make_response, jsonify
 
 # Local packages
 from utils import debug
@@ -38,11 +39,21 @@ def logout():
 def index(): 
     cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token')).first()
     close_values = []
+    graficos = []
     for grafico in cuenta.graficos:
         data = stock_data.get(grafico.simbolo)
         close_values.append(data)
-        grafico.posiciones
-    return render_template('index.html', cuenta=cuenta, close_values=close_values)
+        g = grafico.__dict__.copy()
+        del g['_sa_instance_state']
+        posiciones = []
+        for posicion in grafico.posiciones.all():
+            posicion = posicion.__dict__.copy()
+            del posicion['_sa_instance_state']
+            posiciones.append(posicion)
+        g['posiciones'] = posiciones
+        graficos.append(g)
+
+    return render_template('index.html', cuenta=cuenta, close_values=close_values, graficos=graficos)
 
 @login_required
 def tabla():

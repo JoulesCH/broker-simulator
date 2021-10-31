@@ -19,6 +19,7 @@ def get(symbol=None):
         print('Leyendo desde cache', flush=True)
         data = json.loads(r.get(symbol))
     else: 
+        print('Consultando datos', flush=True)
         data = yf.Ticker(symbol).history(period="D1", start=str(date(2021, 2, 5)), end = str(date.today()))
         close_values = data.Close.to_list()
         labels=[str(date).replace(' 00:00:00', '') for date in data.index]

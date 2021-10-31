@@ -23,3 +23,9 @@ services:
       - .database-data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    command: redis-server --requirepass password
+    ports:
+     - "6379:6379"

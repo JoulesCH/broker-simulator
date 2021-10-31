@@ -15,6 +15,7 @@ Mako==1.1.5
 MarkupSafe==2.0.1
 psycopg2-binary==2.8.6
 SQLAlchemy==1.4.25
+redis
 Werkzeug==2.0.2
 yfinance
 WTForms==2.3.3

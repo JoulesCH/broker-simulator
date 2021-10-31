@@ -15,7 +15,7 @@
             <table class="table align-middle table-striped table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">id</th>
                     <th scope="col">Volumen</th>
                     <th scope="col">Día compra</th>
                     <th scope="col">Precio compra</th>
@@ -44,11 +44,11 @@
                             <td>{{posicion.comentario_venta[:100]}}</td>
                             <td>{{"${:,.2f}".format(posicion.balance)}}...</td>
                         {%else%}
-                            <td>No se ha vendido</td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
                         {%endif%}
                         
                     </tr>

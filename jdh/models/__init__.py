@@ -32,7 +32,7 @@ class Cuenta(db.Model):
 
     ult_movimiento = db.Column(db.Integer) # dia de la semana (en numero) del ultimo movimiento
 
-    graficos =  db.relationship("Grafico", backref="cuenta_grafico", lazy='dynamic')
+    graficos = db.relationship("Grafico", backref="cuenta_grafico", lazy='dynamic')
 
     no_movimientos = db.Column(db.Integer, nullable = True)
 

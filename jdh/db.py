@@ -22,5 +22,6 @@ equipo = Equipo('root', '123as', 'dd')
 cuenta = Cuenta(random_str(10), equipo, 1000000)
 db.session.add(equipo)
 db.session.add(cuenta)
+
 db.session.commit()
 

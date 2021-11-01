@@ -14,27 +14,38 @@ import json
 r = redis.Redis.from_url(os.getenv('REDIS_URL'))
 
 def get(symbol=None):
-    
+
     if not symbol:
         symbol=request.get_json()['symbol']
-    
+
     if r.exists(symbol):
         print(f'Leyendo desde cache datos: {r.memory_usage(symbol)}', flush=True)
         data = json.loads(r.get(symbol))
-    else: 
+    else:
         print('Consultando datos', flush=True)
         data = yf.Ticker(symbol).history(period="D1", start=str(date(2021, 5, 1)), end = str(date.today()))
         close_values = data.Close.to_list()
         labels=[str(date).replace(' 00:00:00', '') for date in data.index]
         data = dict(data=close_values, labels=labels, symbol=symbol)
-        r.set(symbol, json.dumps(data)) 
+        r.set(symbol, json.dumps(data))
         r.expire(symbol, 60*60*12)
 
     return data # {'symbol': symbol, 'data':close_values, 'labels':labels}
 
+
 def restore(key):
+    # 1) Reiniciar datos cacheados
     for symbol in symbols:
         if r.exists(symbol):
             r.delete(symbol)
+    # 2) Iterar sobre cuentas
+        # balance = 0
+        # beneficio = 0
+        # 2.1) Iterar sobre sus gráficos
+            # 2.1.1) Iterar sobre sus posiciones
+                # 2.1.2) Si posición está abierta:
+                    # 2.1.2.1) Obtener el valor actual del simbolo
+                    # Acutalizar balance
+                    # Actualizar beneficio
+                    #
     return {'status': 1}
-     

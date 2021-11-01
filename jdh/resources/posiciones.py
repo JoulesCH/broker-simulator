@@ -1,12 +1,8 @@
 # Installed packages
-from flask import render_template, request, redirect, make_response
+from flask import render_template, request
 
 # Local packages
-from utils import debug
 import models as m
-from . import login_required, not_login_required
-from datetime import date
-from . import stock_data
 
 
 def page():

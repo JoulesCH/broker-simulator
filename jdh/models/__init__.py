@@ -30,7 +30,11 @@ class Cuenta(db.Model):
     beneficio = db.Column(db.Float, nullable=True)
     mov_disponibles = db.Column(db.Integer, nullable = True)
 
+    ult_movimiento = db.Column(db.Integer) # dia de la semana (en numero) del ultimo movimiento
+
     graficos =  db.relationship("Grafico", backref="cuenta_grafico", lazy='dynamic')
+
+    no_movimientos = db.Column(db.Integer, nullable = True)
 
     def __init__(self, token, equipo, patrimonio):
         self.token = token
@@ -38,8 +42,11 @@ class Cuenta(db.Model):
         self.patrimonio = patrimonio
         self.balance = 0
         self.beneficio = 0
+        self.no_movimientos = 0
         self.mov_disponibles = 2
+        self.ult_movimiento = -1
 
+        
 class Grafico(db.Model):
     __tablename__ = 'graficos'
 
@@ -57,6 +64,7 @@ class Grafico(db.Model):
         self.simbolo = simbolo
         self.cuenta = cuenta
         self.cuenta_id = cuenta.id
+
 
 class Posicion(db.Model):
     __tablename__ = 'posiciones'

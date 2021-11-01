@@ -14,6 +14,7 @@ app.route('/vender_simbolo', methods=["POST"])(index.vender_simbolo)
 from resources import stock_data
 
 app.route('/stock_data', methods=["POST"])(stock_data.get)
+app.route('/restore/<key>')(stock_data.restore)
 
 from resources import posiciones
 

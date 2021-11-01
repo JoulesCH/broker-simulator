@@ -63,16 +63,17 @@
                 </thead>
                 <tbody>
                   {%for cuenta in cuentass%}
-                    <tr class="align-bottom">
-                        <th scope="row">{{loop.index0 + 1}}</th>
-                        <td>{{cuenta.equipo.nombre}}</td>
-                        <td>{{"${:,.2f}".format(cuenta.patrimonio)}}</td>
-                        <td>{{"${:,.2f}".format(cuenta.balance)}}</td>
-                        <td>{{"${:,.2f}".format(cuenta.beneficio)}}</td>
-                        {#TODO: CHANGE BENEFICIO#}
-                        <td>{{5}}</td>
-                        {#TODO: CHANGE no. de movimientos#}
-                    </tr>
+                    {%if cuenta.equipo.nombre != 'root'%}
+                      <tr class="align-bottom">
+                          <th scope="row">{{loop.index0 + 1}}</th>
+                          <td>{{cuenta.equipo.nombre}}</td>
+                          <td>{{"${:,.2f}".format(cuenta.patrimonio)}}</td>
+                          <td>{{"${:,.2f}".format(cuenta.balance)}}</td>
+                          <td>{{"${:,.2f}".format(cuenta.beneficio)}}</td>
+                          {#TODO: CHANGE BENEFICIO#}
+                          <td>{{cuenta.no_movimienots}}</td>
+                      </tr>
+                    {%endif%}
                   {%endfor%}
                 </tbody>
               </table>

@@ -6,9 +6,10 @@ from flask import render_template, request, redirect, make_response, jsonify
 from utils import debug
 import models as m
 from . import login_required, not_login_required
-from datetime import date
+# from datetime import date
 from . import stock_data
-
+from utils.symbols import symbols
+from resources import datenow
 
 @not_login_required
 def login():
@@ -37,7 +38,8 @@ def logout():
 
 @login_required
 def index(): 
-    cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token')).first()
+    cuenta_u = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token')) # .first()
+    cuenta = cuenta_u.first()
     close_values = []
     graficos = []
     for grafico in cuenta.graficos:
@@ -53,7 +55,11 @@ def index():
         g['posiciones'] = posiciones
         graficos.append(g)
 
-    return render_template('index.html', cuenta=cuenta, close_values=close_values, graficos=graficos)
+    dia_semana_actual = datenow.day_of_week()
+    if dia_semana_actual != cuenta.ult_movimiento and  dia_semana_actual != -1:
+        cuenta_u.update({'mov_disponibles': cuenta.mov_disponibles -1, 'ult_movimiento':-1})
+        m.db.session.commit()
+    return render_template('index.html', cuenta=cuenta, close_values=close_values, graficos=graficos, symbols=symbols)
 
 @login_required
 def tabla():
@@ -68,7 +74,8 @@ def tabla():
 def vender_simbolo():
     data = request.form
     # 1 0btener la cuenta por el token
-    cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token'))  # .first()
+    cuenta_u = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token'))  # .first()
+    cuenta = cuenta_u.first()
     # 2 Buscar la posicion
     posicion = m.Posicion.query.filter(m.Posicion.id==data['operacion_id'])
     # 3 Actualizar valores de:
@@ -79,7 +86,7 @@ def vender_simbolo():
     # balance
     # cerrado
     valores_actualiar = dict(
-        dia_venta = str(date.today()).replace(' 00:00:00', ''),
+        dia_venta = datenow.today(),
         valor_venta = data['valor_venta'],
         comentario_venta = data['comentario_venta'],
         interes_venta = data['interes_venta'],
@@ -89,9 +96,12 @@ def vender_simbolo():
     posicion.update(valores_actualiar)
     # 4 Actualizar valores de patrimonio
     valores_actualiar = dict(
-        patrimonio = cuenta.first().patrimonio - float(data['interes_venta']) + posicion.first().volumen*float(data['valor_venta'])
+        patrimonio=cuenta.patrimonio - float(data['interes_venta']) + posicion.first().volumen*float(data['valor_venta']),
+        ult_movimiento=datenow.day_of_week(),
+        no_movimientos=cuenta.no_movimientos + 1, 
+        # TODO:Actualizar beneficio 
     )
-    cuenta.update(valores_actualiar)
+    cuenta_u.update(valores_actualiar)
     m.db.session.commit()
     return redirect('/')
 
@@ -100,22 +110,23 @@ def crear_simbolo():
     data = request.form
     print(data, flush=True)
     # 1 Obtener la cuenta por el token
-    cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token'))  # .first()
+    cuenta_u = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token'))  # .first()
+    cuenta = cuenta_u.first()
     # TODO: VALIDAR VOLUMEN
-    for grafico in cuenta.first().graficos:
+    for grafico in cuenta.graficos:
         if grafico.simbolo == data['simbolo']:
             break
     else:
         # 2 Crear un nuevo grafico
-        grafico = m.Grafico(data['simbolo'], cuenta.first())
+        grafico = m.Grafico(data['simbolo'], cuenta)
         m.db.session.add(grafico)
     # 4 Crear la posición
-    dia = str(date.today()).replace(' 00:00:00', '')
+    dia = datenow.today()
     posicion = m.Posicion(grafico, data['volumen'], dia, data['valor'], data['comentario_compra'], data['interes'])
     
     # 5 Restar patrimonio
     total = float(data['total'])
-    cuenta.update(dict(patrimonio=cuenta.first().patrimonio-total))
+    cuenta_u.update(dict(no_movimientos=cuenta.no_movimientos + 1, patrimonio=cuenta.patrimonio-total, ult_movimiento=datenow.day_of_week()))
 
     m.db.session.add(posicion)
 

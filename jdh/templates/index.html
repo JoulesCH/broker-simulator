@@ -43,7 +43,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <label for="recipient-name" class="col-form-label">Símbolo:</label>
-                                            <select onchange="set_symbol()" id="symbolsell" name="simbolo" class="form-select mt-3" aria-label="Default select example">
+                                            <select required onchange="set_symbol()" id="symbolsell" name="simbolo" class="form-select mt-3" aria-label="Default select example">
                                                 <option  selected disabled>Elegir...</option>
                                                 {%for grafico in cuenta.graficos%}
                                                     <option  value="{{grafico.simbolo}}">{{grafico.simbolo}}</option>
@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="col">
                                             <label for="recipient-name" class="col-form-label">Id:</label>
-                                            <select onchange="update_sell_values()" id="operacion_id" name="operacion_id" class="form-select mt-3" aria-label="Default select example">
+                                            <select required onchange="update_sell_values()" id="operacion_id" name="operacion_id" class="form-select mt-3" aria-label="Default select example">
                                                 <option disabled>Elige un símbolo primero</option>
                                             </select>
                                         </div>
@@ -152,7 +152,7 @@
                                                             operacion_id.innerHTML += `<option value="${posicion.id}">${posicion.id}</option>`;
                                                             datasets_sell.push({
                                                                 type: 'scatter',
-                                                                label: `${posicion.id} - ${posicion.dia_compra}`, 
+                                                                label: `${posicion.id} | ${posicion.dia_compra}`, 
                                                                 data: [{
                                                                         x: `${posicion.dia_compra}`,
                                                                         y: `${posicion.valor_compra}`
@@ -235,9 +235,9 @@
                                               <label for="recipient-name" class="col-form-label">Símbolo:</label>
                                               <select onchange="get_stock_data()" id="symbol" name="simbolo" class="form-select mt-3" aria-label="Default select example">
                                                 <option disabled >Elegir...</option>
-                                                <option selected value="TSLA">TSLA</option>
-                                                <option value="GOOGL">GOOGL</option>
-                                                <option value="AMZN">AMZN</option>
+                                              {%for symbol in symbols%}  
+                                                <option selected value="{{symbol}}">{{symbol}}</option>
+                                              {%endfor%}
                                               </select>
                                             </div>
                                         </div>
@@ -374,10 +374,21 @@
                         };
                     </script>
                 </div>
+            {%else%}
+                <div class="container">
+                    <div class="row">
+                    <div class="col text-center">
+                        <button type="button" diabled class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Abrir posición</button>
+                    </div>
+                    <div class="col text-center">
+                        <button type="button" disabled class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">Cerrar posición</button>
+                    </div>
+                    </div>
+                </div>
             {%endif%}
             <div class="row mt-5 justify-content-center">
                 {%for grafico in cuenta.graficos%}
-                    <div class="col-lg-4  col-md-6   text-center" style="height: 300px;">
+                    <div class="col-lg-6  col-md-6   text-center" style="height: 300px;">
                         <h4>{{grafico.simbolo}}</h4>
                         <!--<a href="/grafico/{{grafico.id}}"> -->
                             <div class="chart-container" style="padding: 1px;">
@@ -385,7 +396,7 @@
                                                                         height: 250px;
                                                                         display: block;"></canvas>
                             </div>
-                        <!--</a> -->
+                        <!--</a>-->
                         <script>
                             let ctx_{{loop.index0}} = document.getElementById('chart-{{loop.index0}}');
                             let labels_{{loop.index0}} = {{close_values[loop.index0].labels |tojson }};
@@ -404,7 +415,7 @@
                                 {%for posicion in grafico.posiciones%}
                                     {
                                         type: 'scatter',
-                                        label: "{{posicion.id}} - {{posicion.dia_compra}}",
+                                        label: "{{posicion.id}} | {{posicion.dia_compra}}",
                                         data: [{
                                                 x: "{{posicion.dia_compra}}",
                                                 y: "{{posicion.valor_compra}}"
@@ -416,7 +427,7 @@
                                     {%if posicion.cerrado%}
                                     {
                                         type: 'scatter',
-                                        label: "{{posicion.id}} - {{posicion.dia_venta}}",
+                                        label: "{{posicion.id}} | {{posicion.dia_venta}}",
                                         data: [{
                                                 x: "{{posicion.dia_venta}}",
                                                 y: "{{posicion.valor_venta}}"
@@ -432,6 +443,14 @@
                             let config_{{loop.index0}} = {
                                 type: 'line',
                                 data: data_{{loop.index0}},
+                                options: {
+                                    plugins: {
+                                        legend: {
+                                            display: true,
+                                            position: 'right'
+                                        }
+                                    }
+                                }
                             };
                             let myChart_{{loop.index0}} = new Chart(ctx_{{loop.index0}}, config_{{loop.index0}});
                     

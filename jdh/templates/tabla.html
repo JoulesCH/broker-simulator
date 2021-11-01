@@ -30,28 +30,30 @@
                 </thead>
                 <tbody>
                   {%for posicion in posiciones%}
-                    <tr class="align-bottom">
-                        <th scope="row">{{posicion.id}}</th>
-                        <td>{{posicion.volumen}}</td>
-                        <td>{{posicion.dia_compra}}</td>
-                        <td>{{"${:,.2f}".format(posicion.valor_compra)}}</td>
-                        <td>{{"${:,.2f}".format(posicion.interes_compra)}}</td>
-                        <td>{{posicion.comentario_compra[:100]}}...</td>
-                        {%if posicion.cerrado%}
-                            <td>{{posicion.dia_venta}}</td>
-                            <td>{{"${:,.2f}".format(posicion.valor_venta)}}</td>
-                            <td>{{"${:,.2f}".format(posicion.interes_venta)}}</td>
-                            <td>{{posicion.comentario_venta[:100]}}</td>
-                            <td>{{"${:,.2f}".format(posicion.balance)}}</td>
-                        {%else%}
-                            <td> - </td>
-                            <td> - </td>
-                            <td> - </td>
-                            <td> - </td>
-                            <td> - </td>
-                        {%endif%}
-                        
-                    </tr>
+                    
+                      <tr class="align-bottom">
+                          <th scope="row">{{posicion.id}}</th>
+                          <td>{{posicion.volumen}}</td>
+                          <td>{{posicion.dia_compra}}</td>
+                          <td>{{"${:,.2f}".format(posicion.valor_compra)}}</td>
+                          <td>{{"${:,.2f}".format(posicion.interes_compra)}}</td>
+                          <td>{{posicion.comentario_compra[:100]}}...</td>
+                          {%if posicion.cerrado%}
+                              <td>{{posicion.dia_venta}}</td>
+                              <td>{{"${:,.2f}".format(posicion.valor_venta)}}</td>
+                              <td>{{"${:,.2f}".format(posicion.interes_venta)}}</td>
+                              <td>{{posicion.comentario_venta[:100]}}</td>
+                              <td>{{"${:,.2f}".format(posicion.balance)}}</td>
+                          {%else%}
+                              <td> - </td>
+                              <td> - </td>
+                              <td> - </td>
+                              <td> - </td>
+                              <td> - </td>
+                          {%endif%}
+                          
+                      </tr>
+                
                   {%endfor%}
                 </tbody>
               </table>

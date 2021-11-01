@@ -9,6 +9,7 @@ app.route('/login', methods=["GET", "POST"])(index.login)
 app.route('/logout', methods=["POST"])(index.logout)
 app.route('/crear_simbolo', methods=["POST"])(index.crear_simbolo)
 app.route('/tabla')(index.tabla)
+app.route('/vender_simbolo', methods=["POST"])(index.vender_simbolo)
 
 from resources import stock_data
 

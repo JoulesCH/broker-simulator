@@ -29,79 +29,95 @@
                 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
                     <div class="modal-dialog" style="max-width: 1000px; ">
                       <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel2">Cerrar posición</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="row">
-                              <div class="col">
-                                <canvas id="chartsell" height="200"></canvas>
-                              </div>
-                              <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="recipient-name" class="col-form-label">Símbolo:</label>
-                                        <select onchange="set_symbol()" id="symbolsell" name="simbolo" class="form-select mt-3" aria-label="Default select example">
-                                            <option  selected>Elegir...</option>
-                                            {%for grafico in cuenta.graficos%}
-                                                <option selected value="{{grafico.simbolo}}">{{grafico.simbolo}}</option>
-                                            {%endfor%}
-                                        </select>
+                        <form action="/vender_simbolo" method="POST">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel2">Cerrar posición</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    <canvas id="chartsell" height="200"></canvas>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Símbolo:</label>
+                                            <select onchange="set_symbol()" id="symbolsell" name="simbolo" class="form-select mt-3" aria-label="Default select example">
+                                                <option  selected disabled>Elegir...</option>
+                                                {%for grafico in cuenta.graficos%}
+                                                    <option  value="{{grafico.simbolo}}">{{grafico.simbolo}}</option>
+                                                {%endfor%}
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="recipient-name" class="col-form-label">Id:</label>
+                                            <select onchange="update_sell_values()" id="operacion_id" name="operacion_id" class="form-select mt-3" aria-label="Default select example">
+                                                <option disabled>Elige un símbolo primero</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <label for="recipient-name" class="col-form-label">Id:</label>
-                                        <select id="symbolsell" name="operacion_id" class="form-select mt-3" aria-label="Default select example">
-                                            <option disabled>Elige un símbolo primero</option>
-                                        </select>
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">Comentario:</label>
+                                        <textarea required rows="7"  placeholder="Resumen de los motivos para realizar la venta" name="comentario_venta" class="form-control" id="message-text"></textarea>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="message-text" class="col-form-label">Comentario:</label>
-                                    <textarea required rows="7"  placeholder="Resumen de los movitos para realizar la venta" name="comentario_venta" class="form-control" id="message-text"></textarea>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="mb-3">
-                            <hr>
-                            <h6> <b>Resumen</b> </h6>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                      <th scope="col">Concepto</th>
-                                      <th scope="col">Precio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row" id="t-symbol-sell"></th>
-                                        <td id="t-precio-sell"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td id="t-volumen-sell"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Interés + comisión (0.29%)</th>
-                                        <td id="t-interes-sell"></td>
-                                    </tr>
+                            </div>
+                            <div class="mb-3">
+                                <hr>
+                                <h6> <b>Resumen</b> </h6>
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                          <th scope="col">Total</th>
-                                          <th scope="col" id="t-total-sell"></th>
+                                        <th scope="col">Concepto</th>
+                                        <th scope="col">Precio</th>
                                         </tr>
                                     </thead>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="button" class="btn btn-primary">¡Vender!</button>
-                        </div>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row" id="t-symbol-sell"></th>
+                                            <td id="t-precio-sell"></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"></th>
+                                            <td id="t-volumen-sell"></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Interés + comisión (0.29%)</th>
+                                            <td id="t-interes-sell"></td>
+                                        </tr>
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Total</th>
+                                            <th scope="col" id="t-total-sell"></th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Beneficio Final</th>
+                                            <th scope="col" id="t-beneficio-sell"></th>
+                                            </tr>
+                                        </thead>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">¡Vender!</button>
+                            </div>
+                        </form>
                       </div>
                     </div>
                     <script>
+                        let  t_symbol_sell = document.getElementById('t-symbol-sell');
+                        let  t_precio_sell = document.getElementById('t-precio-sell');
+                        let  t_volumen_sell = document.getElementById('t-volumen-sell');
+                        let  t_interes_sell = document.getElementById('t-interes-sell');
+                        let  t_total_sell = document.getElementById('t-total-sell');
+                        let  t_beneficio_sell = document.getElementById('t-beneficio-sell');
+
+                        let precio_sell, posiciones_sell;
                         let symbol_sell = document.getElementById('symbolsell');
                         let operacion_id = document.getElementById('operacion_id');
                         let graficos = {{graficos | tojson}};
@@ -119,18 +135,40 @@
                                             
                                             let ctxsell = document.getElementById('chartsell');
                                             let labelssell =response.labels;
-                                            let datasell = {
-                                                labels: labelssell,
-                                                datasets: [{
-                                                    type: 'line',
+                                            operacion_id.innerHTML = "<option disabled>Id de posición</option>";
+                                            let datasets_sell = [{type: 'line',
                                                     label: response.symbol,
                                                     data: response.data,
                                                     fill: false,
                                                     borderColor: '#363554',
                                                     tension: 0.1,
                                                     pointRadius: 0
-                                                },
-                                            ]
+                                                }];
+                                            for (let grafico of graficos) {
+                                                if(grafico.simbolo == symbol_sell.value){
+                                                    posiciones_sell = grafico.posiciones;
+                                                    for (let posicion of grafico.posiciones)
+                                                        if(!posicion.cerrado){
+                                                            operacion_id.innerHTML += `<option value="${posicion.id}">${posicion.id}</option>`;
+                                                            datasets_sell.push({
+                                                                type: 'scatter',
+                                                                label: `${posicion.id} - ${posicion.dia_compra}`, 
+                                                                data: [{
+                                                                        x: `${posicion.dia_compra}`,
+                                                                        y: `${posicion.valor_compra}`
+                                                                    }
+                                                                ],
+                                                                pointStyle: 'triangle',
+                                                                pointRadius: 6,
+                                                                backgroundColor: 'green'
+                                                            });
+                                                        }
+                                                    break;
+                                                }
+                                            }
+                                            let datasell = {
+                                                labels: labelssell,
+                                                datasets: datasets_sell
                                             };
                                             let config = {
                                                 type: 'line',
@@ -140,15 +178,37 @@
                                                 mySellChart.destroy();
                                             }
                                             mySellChart = new Chart(ctxsell, config);
-                                            operacion_id.innerHTML = "<option disabled>Elige un símbolo primero</option>";
-                                            for (const grafico in graficos) {
-                                                if (Object.hasOwnProperty.call(graficos, grafico)) {
-                                                    const element = graficos[grafico];
-                                                    
-                                                }
-                                            }
-
+                                            precio_sell = response.data[response.data.length-1];
+                                            t_symbol_sell.innerHTML = response.symbol;
+                                            t_precio_sell.innerHTML = formatter.format(precio_sell) + `
+                                                <input name="valor_venta" type="hidden" value=${precio_sell}>            
+                                            `;
+                                            
+                                            t_interes_sell.innerHTML = '';
+                                            t_total_sell.innerHTML = '';
+                                            t_volumen_sell.innerHTML = 'x';
+                                            t_beneficio_sell.innerHTML = '';
                                     });
+                        };
+                        function update_sell_values(){
+                            for(let posicion of posiciones_sell){
+                                if(posicion.id == operacion_id.value){
+                                    t_volumen_sell.innerHTML = 'x'+posicion.volumen;
+                                    let costo = posicion.volumen*precio_sell;
+                                    let interes = costo*(comision-1);
+                                    let total = costo*comision;
+                                    t_interes_sell.innerHTML = formatter.format(interes) + `
+                                                <input name="interes_venta" type="hidden" value=${interes}>            
+                                    `;
+                                    t_total_sell.innerHTML = formatter.format(total);
+                                    let beneficio = posicion.volumen*precio_sell - posicion.volumen*posicion.valor_compra;
+                                    t_beneficio_sell.innerHTML = formatter.format(beneficio) + `
+                                                <input name="beneficio" type="hidden" value=${beneficio}>            
+                                    `;
+                                    break;
+                                }
+                            }
+
                         };
                     </script>
                 </div>
@@ -174,7 +234,7 @@
                                             <div class="mb-3">
                                               <label for="recipient-name" class="col-form-label">Símbolo:</label>
                                               <select onchange="get_stock_data()" id="symbol" name="simbolo" class="form-select mt-3" aria-label="Default select example">
-                                                <option disabled>Elegir...</option>
+                                                <option disabled >Elegir...</option>
                                                 <option selected value="TSLA">TSLA</option>
                                                 <option value="GOOGL">GOOGL</option>
                                                 <option value="AMZN">AMZN</option>
@@ -191,7 +251,7 @@
 
                                         <div class="mb-3">
                                           <label for="message-text" class="col-form-label">Comentario:</label>
-                                          <textarea required rows="7"  placeholder="Resumen de los movitos para realizar la compra" name="comentario_compra" class="form-control" id="message-text"></textarea>
+                                          <textarea required rows="7"  placeholder="Resumen de los motivos para realizar la compra" name="comentario_compra" class="form-control" id="message-text"></textarea>
                                         </div>
                                 </div>
                             </div>
@@ -260,7 +320,7 @@
                                         .then(function (response) {
                                             return response.json();
                                         }).then(function (response) {
-                                            console.log(response);
+                                            //console.log(response);
                                             let ctx = document.getElementById('chart');
                                             let labels =response.labels;
                                             let data = {
@@ -319,13 +379,13 @@
                 {%for grafico in cuenta.graficos%}
                     <div class="col-lg-4  col-md-6   text-center" style="height: 300px;">
                         <h4>{{grafico.simbolo}}</h4>
-                        <a href="/grafico/{{grafico.id}}">
+                        <!--<a href="/grafico/{{grafico.id}}"> -->
                             <div class="chart-container" style="padding: 1px;">
                                 <canvas id="chart-{{loop.index0}}" style= "width: 100%;
                                                                         height: 250px;
                                                                         display: block;"></canvas>
                             </div>
-                        </a>
+                        <!--</a> -->
                         <script>
                             let ctx_{{loop.index0}} = document.getElementById('chart-{{loop.index0}}');
                             let labels_{{loop.index0}} = {{close_values[loop.index0].labels |tojson }};
@@ -344,16 +404,28 @@
                                 {%for posicion in grafico.posiciones%}
                                     {
                                         type: 'scatter',
-                                        label: "{{posicion.id}}",//"{{posicion.dia_compra}} - {{posicion.dia_venta}}",
+                                        label: "{{posicion.id}} - {{posicion.dia_compra}}",
                                         data: [{
                                                 x: "{{posicion.dia_compra}}",
                                                 y: "{{posicion.valor_compra}}"
-                                            }, {
+                                            }],
+                                        pointStyle: 'triangle',
+                                        pointRadius: 6,
+                                        backgroundColor: 'green'
+                                    },
+                                    {%if posicion.cerrado%}
+                                    {
+                                        type: 'scatter',
+                                        label: "{{posicion.id}} - {{posicion.dia_venta}}",
+                                        data: [{
                                                 x: "{{posicion.dia_venta}}",
                                                 y: "{{posicion.valor_venta}}"
                                             }],
-                                        //backgroundColor: 'rgb(255, 99, 132)'
+                                        pointStyle: 'triangle',
+                                        pointRadius: 6,
+                                        backgroundColor: 'red'
                                     },
+                                    {%endif%}
                                 {%endfor%}
                             ]
                             };

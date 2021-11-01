@@ -16,7 +16,7 @@ def get(symbol=None):
         symbol=request.get_json()['symbol']
     
     if r.exists(symbol):
-        print('Leyendo desde cache', flush=True)
+        print(f'Leyendo desde cache datos: {r.memory_usage(symbol)}', flush=True)
         data = json.loads(r.get(symbol))
     else: 
         print('Consultando datos', flush=True)

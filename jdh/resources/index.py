@@ -65,6 +65,37 @@ def tabla():
     return render_template('tabla.html', cuenta=cuenta, posiciones = posiciones)
 
 @login_required
+def vender_simbolo():
+    data = request.form
+    # 1 0btener la cuenta por el token
+    cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token'))  # .first()
+    # 2 Buscar la posicion
+    posicion = m.Posicion.query.filter(m.Posicion.id==data['operacion_id'])
+    # 3 Actualizar valores de:
+    # dia_venta
+    # valor_venta
+    # comentario_venta
+    # interes_venta
+    # balance
+    # cerrado
+    valores_actualiar = dict(
+        dia_venta = str(date.today()).replace(' 00:00:00', ''),
+        valor_venta = data['valor_venta'],
+        comentario_venta = data['comentario_venta'],
+        interes_venta = data['interes_venta'],
+        balance = data['beneficio'],
+        cerrado = True
+    )
+    posicion.update(valores_actualiar)
+    # 4 Actualizar valores de patrimonio
+    valores_actualiar = dict(
+        patrimonio = cuenta.first().patrimonio - float(data['interes_venta']) + posicion.first().volumen*float(data['valor_venta'])
+    )
+    cuenta.update(valores_actualiar)
+    m.db.session.commit()
+    return redirect('/')
+
+@login_required
 def crear_simbolo():
     data = request.form
     print(data, flush=True)

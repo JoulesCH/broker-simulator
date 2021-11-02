@@ -67,7 +67,7 @@ def index():
     hora_actual = int(datenow.hour())
     puede_hora = False
 
-    if hora_actual < 6 and hora_actual > 15:
+    if hora_actual < 6 or hora_actual > 15:
         puede_hora = True
 
     return render_template('index.html', 

@@ -5,6 +5,7 @@ import redis
 
 # Local
 from utils.symbols import symbols
+import models as m
 
 # Built in packages
 from datetime import date
@@ -38,14 +39,28 @@ def restore(key):
     for symbol in symbols:
         if r.exists(symbol):
             r.delete(symbol)
+    for cuenta in m.Cuenta.query.all():
     # 2) Iterar sobre cuentas
-        # balance = 0
-        # beneficio = 0
+        balance = 0
+        beneficio = 0
+        for grafico in cuenta.graficos.all():
         # 2.1) Iterar sobre sus gráficos
+            valor_actual = get(grafico.simbolo)['data'][-1]
+            for posicion in grafico.posiciones.all():
             # 2.1.1) Iterar sobre sus posiciones
+                if not posicion.cerrado:
                 # 2.1.2) Si posición está abierta:
-                    # 2.1.2.1) Obtener el valor actual del simbolo
                     # Acutalizar balance
-                    # Actualizar beneficio
-                    #
+                    actual = posicion.volumen*valor_actual
+                    balance += actual
+                    beneficio += posicion.volumen*(valor_actual - posicion.valor_compra )
+        # Actualizar balance
+        cuenta.balance = balance
+        cuenta.beneficio = beneficio
+        #cuenta.update(dict(
+        #    balance=balance,
+        #    beneficio=(beneficio + cuenta.patrimonio) if beneficio else 0
+        #))
+        m.db.session.commit()
+
     return {'status': 1}

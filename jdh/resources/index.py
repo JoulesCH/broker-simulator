@@ -60,9 +60,21 @@ def index():
 
     dia_semana_actual = datenow.day_of_week()
     if dia_semana_actual != cuenta.ult_movimiento and cuenta.ult_movimiento != -1:
-        cuenta_u.update({'mov_disponibles': cuenta.mov_disponibles - 1, 'ult_movimiento': -1})
+        cuenta_u.update({'mov_disponibles': max(0,cuenta.mov_disponibles - 1), 'ult_movimiento': -1})
         m.db.session.commit()
-    return render_template('index.html', cuenta=cuenta, close_values=close_values, graficos=graficos, symbols=symbols)
+    
+    # Validar que sea entre semana y en el horario fuera de 6am a 4pm
+    hora_actual = int(datenow.hour())
+    puede_hora = False
+
+    if hora_actual < 6 and hora_actual > 15:
+        puede_hora = True
+
+    return render_template('index.html', 
+        cuenta=cuenta, close_values=close_values, 
+        graficos=graficos, symbols=symbols,
+        puede_hora=puede_hora
+    )
 
 
 @login_required
@@ -82,7 +94,8 @@ def vender_simbolo():
     cuenta_u = m.Cuenta.query.filter(m.Cuenta.token == request.cookies.get('token'))  # .first()
     cuenta = cuenta_u.first()
     # 2 Buscar la posicion
-    posicion = m.Posicion.query.filter(m.Posicion.id == data['operacion_id'])
+    posicion_u = m.Posicion.query.filter(m.Posicion.id == data['operacion_id'])
+    posicion = posicion_u.first()
     # 3 Actualizar valores de:
     # dia_venta
     # valor_venta
@@ -98,14 +111,15 @@ def vender_simbolo():
         balance=data['beneficio'],
         cerrado=True
     )
-    posicion.update(valores_actualiar)
+    posicion_u.update(valores_actualiar)
     # 4 Actualizar valores de patrimonio
     valores_actualiar = dict(
-        patrimonio=cuenta.patrimonio - float(data['interes_venta']) + posicion.first().volumen * float(
-            data['valor_venta']),
+        patrimonio=cuenta.patrimonio - float(data['interes_venta']) + posicion.volumen * float(data['valor_venta']),
         ult_movimiento=datenow.day_of_week(),
         no_movimientos=cuenta.no_movimientos + 1,
-        # TODO:Actualizar beneficio 
+        beneficio_total=cuenta.beneficio_total + posicion.volumen*(float(data['valor_venta']) - posicion.valor_compra),
+        balance = cuenta.balance - posicion.volumen*float(data['valor_venta']),
+        beneficio = cuenta.beneficio - posicion.volumen*(float(data['valor_venta']) - posicion.valor_compra)
     )
     cuenta_u.update(valores_actualiar)
     m.db.session.commit()
@@ -133,8 +147,14 @@ def crear_simbolo():
 
     # 5 Restar patrimonio
     total = float(data['total'])
-    cuenta_u.update(dict(no_movimientos=cuenta.no_movimientos + 1, patrimonio=cuenta.patrimonio - total,
-                         ult_movimiento=datenow.day_of_week()))
+    cuenta_u.update(
+        dict(
+            no_movimientos=cuenta.no_movimientos + 1, 
+            patrimonio=cuenta.patrimonio - total,
+            ult_movimiento=datenow.day_of_week(),
+            balance=cuenta.balance + float(data['volumen'])*float(data['valor'])
+        )
+    )
 
     m.db.session.add(posicion)
 

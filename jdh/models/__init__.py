@@ -28,6 +28,9 @@ class Cuenta(db.Model):
     patrimonio = db.Column(db.Float, nullable=True)
     balance = db.Column(db.Float, nullable=True)
     beneficio = db.Column(db.Float, nullable=True)
+
+    beneficio_total = db.Column(db.Float, nullable=True)
+
     mov_disponibles = db.Column(db.Integer, nullable = True)
 
     ult_movimiento = db.Column(db.Integer) # dia de la semana (en numero) del ultimo movimiento
@@ -45,6 +48,7 @@ class Cuenta(db.Model):
         self.no_movimientos = 0
         self.mov_disponibles = 2
         self.ult_movimiento = -1
+        self.beneficio_total = 0
 
         
 class Grafico(db.Model):

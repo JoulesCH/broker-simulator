@@ -11,3 +11,7 @@ def today():
 def day_of_week():
     response = requests.get(url).json()
     return response['day_of_week']
+
+def hour():
+    response = requests.get(url).json()
+    return response['datetime'][11:13]

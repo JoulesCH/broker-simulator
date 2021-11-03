@@ -135,7 +135,7 @@
                                             
                                             let ctxsell = document.getElementById('chartsell');
                                             let labelssell =response.labels;
-                                            operacion_id.innerHTML = "<option disabled>Id de posición</option>";
+                                            operacion_id.innerHTML = "<option disabled selected>Id de posición</option>";
                                             let datasets_sell = [{type: 'line',
                                                     label: response.symbol,
                                                     data: response.data,
@@ -378,7 +378,7 @@
                 <div class="container">
                     <div class="row">
                     <div class="col text-center">
-                        <button type="button" diabled class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Abrir posición</button>
+                        <button type="button" disabled class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Abrir posición</button>
                     </div>
                     <div class="col text-center">
                         <button type="button" disabled class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">Cerrar posición</button>

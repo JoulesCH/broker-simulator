@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 import os
 
 
-migrate = Migrate(app, database.db, directory=os.getenv('MIGRATE_FOLDER', 'migrations_prod/'))
+migrate = Migrate(app, database.db, directory=os.getenv('MIGRATE_FOLDER', 'migrations/'))
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 

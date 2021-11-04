@@ -7,8 +7,8 @@ import models as m
 
 def page():
     if 'token' in request.cookies:
-        cuenta = m.Cuenta.query.filter(m.Cuenta.token==request.cookies.get('token')).first()
+        cuenta = m.Cuenta.query.filter(m.Cuenta.token == request.cookies.get('token')).first()
     else:
         cuenta = None
-    cuentas = m.Cuenta.query.order_by(m.Cuenta.patrimonio.desc()).all()
+    cuentas = m.Cuenta.query.filter(m.Cuenta.equipo_id != 30).order_by(m.Cuenta.patrimonio.desc()).all()
     return render_template('posiciones.html', cuentass=cuentas, cuenta=cuenta)

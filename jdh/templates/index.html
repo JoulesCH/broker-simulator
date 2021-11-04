@@ -12,6 +12,15 @@
 {%block content%}
     <main>
         <div class="container">
+            <h4 class="text-center">
+                $1.00 <img src="{{ url_for('static', filename='img/estados-unidos.png') }}" alt="USD" width="20px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                  <path fill="#6d1a42" fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    <path fill="#6d1a42" fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+                ${{ currency }} <img src="{{ url_for('static', filename='img/mexico.png') }}" alt="USD" width="20px">
+            </h4>
+
             <h3 class="text-center">Días de movimientos disponibles: {{cuenta.mov_disponibles}}</h3>
             {%if cuenta.mov_disponibles and puede_hora%}
                 <div class="container">
@@ -135,7 +144,7 @@
                                             
                                             let ctxsell = document.getElementById('chartsell');
                                             let labelssell =response.labels;
-                                            operacion_id.innerHTML = "<option selected disabled>Id de posición</option>";
+                                            operacion_id.innerHTML = "<option disabled selected>Id de posición</option>";
                                             let datasets_sell = [{type: 'line',
                                                     label: response.symbol,
                                                     data: response.data,
@@ -378,7 +387,7 @@
                 <div class="container">
                     <div class="row">
                     <div class="col text-center">
-                        <button type="button" diabled class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Abrir posición</button>
+                        <button type="button" disabled class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Abrir posición</button>
                     </div>
                     <div class="col text-center">
                         <button type="button" disabled class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">Cerrar posición</button>

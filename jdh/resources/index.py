@@ -73,7 +73,7 @@ def index():
     return render_template('index.html', 
         cuenta=cuenta, close_values=close_values, 
         graficos=graficos, symbols=symbols,
-        puede_hora=puede_hora
+        puede_hora=puede_hora, currency=stock_data.currency()
     )
 
 

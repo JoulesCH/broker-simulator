@@ -3,8 +3,9 @@
 <head>
     <!--Para Julieta-->
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type = "image/png" href="{{url_for('static', filename= 'favicon.ico')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, shrink-to-fit=no" />
     <title>JDH | {%block title%} {%endblock%}</title>
+    <link rel="shortcut icon" type = "image/png" href="{{url_for('static', filename= 'favicon.ico')}}">
     {%block head%} {%endblock%}
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/navbar.css')}}">

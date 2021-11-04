@@ -68,8 +68,7 @@
                           <td>{{cuenta.equipo.nombre}}</td>
                           <td>{{"${:,.2f}".format(cuenta.patrimonio)}}</td>
                           <td>{{"${:,.2f}".format(cuenta.balance)}}</td>
-                          <td>{{"${:,.2f}".format(cuenta.beneficio)}}</td>
-                          {#TODO: CHANGE BENEFICIO#}
+                          <td>{{"${:,.2f}".format(cuenta.beneficio_total)}}</td>
                           <td>{{cuenta.no_movimientos}}</td>
                       </tr>
                   {%endfor%}

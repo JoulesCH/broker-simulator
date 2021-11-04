@@ -13,12 +13,9 @@
     <main>
         <div class="container">
             <h4 class="text-center">
-                $1.00 <img src="{{ url_for('static', filename='img/estados-unidos.png') }}" alt="USD" width="20px">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                  <path fill="#6d1a42" fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
-                    <path fill="#6d1a42" fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
-                </svg>
-                ${{ currency }} <img src="{{ url_for('static', filename='img/mexico.png') }}" alt="USD" width="20px">
+                $1.00 <img src="https://i.ibb.co/8DPygV7/estados-unidos.png" alt="USD" width="20px">
+                =
+                ${{ currency }} <img src="https://i.ibb.co/JmKS6cB/mexico.png" alt="MXN" width="20px">
             </h4>
 
             <h3 class="text-center">Días de movimientos disponibles: {{cuenta.mov_disponibles}}</h3>

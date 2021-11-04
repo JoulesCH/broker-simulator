@@ -65,7 +65,7 @@ def index():
     
     # Validar que sea entre semana y en el horario fuera de 6am a 4pm
     hora_actual = int(datenow.hour())
-    puede_hora = False
+    puede_hora = True
 
     if hora_actual < 6 or hora_actual > 15:
         puede_hora = True

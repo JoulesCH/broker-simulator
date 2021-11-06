@@ -12,6 +12,7 @@ import models as m
 from datetime import date
 import os
 import json
+from .datenow import day_of_week
 
 r = redis.Redis.from_url(os.getenv('REDIS_URL'))
 
@@ -60,6 +61,7 @@ def get(symbol=None):
 
 def restore(key):
     # 1) Reiniciar datos cacheados
+    day = day_of_week()
     for symbol in symbols:
         if r.exists(symbol):
             r.delete(symbol)
@@ -77,10 +79,12 @@ def restore(key):
                     # Acutalizar balance
                     actual = posicion.volumen*valor_actual
                     balance += actual
-                    beneficio += posicion.volumen*(valor_actual - posicion.valor_compra )
+                    beneficio += posicion.volumen*(valor_actual - posicion.valor_compra ) - posicion.interes_compra - posicion.volumen*posicion.valor_compra*0.0029
         # Actualizar balance
         cuenta.balance = balance
         cuenta.beneficio = beneficio
+        if day == 1:
+            cuenta.no_movimientos = 2
         m.db.session.commit()
 
     return {'status': 1}

@@ -207,7 +207,7 @@
                                                 <input name="interes_venta" type="hidden" value=${interes}>            
                                     `;
                                     t_total_sell.innerHTML = formatter.format(total);
-                                    let beneficio = posicion.volumen*precio_sell - posicion.volumen*posicion.valor_compra - interes;
+                                    let beneficio = posicion.volumen*precio_sell - posicion.volumen*posicion.valor_compra - interes - posicion.interes_compra;
                                     t_beneficio_sell.innerHTML = formatter.format(beneficio) + `
                                                 <input name="beneficio" type="hidden" value=${beneficio}>            
                                     `;

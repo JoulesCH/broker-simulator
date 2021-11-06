@@ -16,6 +16,7 @@
                 <thead>
                   <tr>
                     <th scope="col">id</th>
+                    <th scope="col">Símbolo</th>
                     <th scope="col">Volumen</th>
                     <th scope="col">Día compra</th>
                     <th scope="col">Precio compra</th>
@@ -33,6 +34,7 @@
                     
                       <tr class="align-bottom">
                           <th scope="row">{{posicion.id}}</th>
+                          <td><b>{{posicion.grafico.simbolo}}</b></td>
                           <td>{{posicion.volumen}}</td>
                           <td>{{posicion.dia_compra}}</td>
                           <td>{{"${:,.2f}".format(posicion.valor_compra)}}</td>

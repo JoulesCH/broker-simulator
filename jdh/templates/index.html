@@ -202,12 +202,12 @@
                                     t_volumen_sell.innerHTML = 'x'+posicion.volumen;
                                     let costo = posicion.volumen*precio_sell;
                                     let interes = costo*(comision-1);
-                                    let total = costo*comision;
+                                    let total = costo - interes;
                                     t_interes_sell.innerHTML = formatter.format(interes) + `
                                                 <input name="interes_venta" type="hidden" value=${interes}>            
                                     `;
                                     t_total_sell.innerHTML = formatter.format(total);
-                                    let beneficio = posicion.volumen*precio_sell - posicion.volumen*posicion.valor_compra;
+                                    let beneficio = posicion.volumen*precio_sell - posicion.volumen*posicion.valor_compra - interes;
                                     t_beneficio_sell.innerHTML = formatter.format(beneficio) + `
                                                 <input name="beneficio" type="hidden" value=${beneficio}>            
                                     `;
